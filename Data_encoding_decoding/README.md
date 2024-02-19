@@ -16,8 +16,14 @@ Shift each character to the left by 4 (wrapping around)
 Convert back to characters from the numerical values using UTF-8 encoding
 You can test with the input "Hello, World!".  This should lead to an encoding of:
 
+```
 0x4C 0x50 0x53 0x53 0x50
 0x49 0x50 0x41 0x56 0x48
+```
+
+
 and result in the following string after decoding:
 
+```
 H E L L O W O R L D
+```
