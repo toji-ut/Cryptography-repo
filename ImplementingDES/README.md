@@ -1,3 +1,5 @@
+Task:
+
 In this assignment, use the provided template file and finish the implementation of the simplified DES-like algorithm from Section 4.2 of the textbook (also described below and in the comments). There is a template file for Java and another for Python. Pick the language of your choice and copy/paste the appropriate file into the VPL to get started.
 
 The main() method is already done. It will follow the example from the textbook, inputting the plaintext = 0b011100100110 with master key = 0b010011001 and perform the 4th round of the DES-like encryption. This method is done and should not be modified.
