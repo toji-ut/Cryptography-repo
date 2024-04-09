@@ -1,8 +1,3 @@
-# File: DESModes.py
-# Template for encrypting messages under different Modes of Operation
-#  with our simplified DES-like algorithm
-# Author: S. Kim
-
 SBOX1 = [ [0b101, 0b010, 0b001, 0b110, 0b011, 0b100, 0b111, 0b000],
           [0b001, 0b100, 0b110, 0b010, 0b000, 0b111, 0b101, 0b011] ]
 
@@ -105,8 +100,11 @@ def f(expR, rk):
 #cbc() - Encrypts msg with simplified DES algorithm under Cipher Block Chaining mode
 def cbc(msg, masterkey, iv):
     #FILL IN CODE
+
+    # Convert message to hexadecimal representation
     to_hex = msg.encode('utf-8').hex()
 
+    # Split the message into blocks of 3 characters
     blocks = []
     for i in range(0, len(to_hex), 3):
         blocks.append(to_hex[i:i+3])
@@ -114,14 +112,15 @@ def cbc(msg, masterkey, iv):
     encrypted = 0
     hex_string = ''
 
+    # Encrypt each block using simplified DES in CBC mode
     for i, block in enumerate(blocks):
         block_int = int(block, 16)
         if i == 0:
-            new_block = block_int ^ iv
+            new_block = block_int ^ iv  # XOR with IV for the first block
         else:
-            new_block = block_int ^ encrypted
-        encrypted = des_round(new_block, masterkey, 1)
-        hex_string += format(encrypted, 'x').zfill(3)
+            new_block = block_int ^ encrypted  # XOR with previous encrypted block for subsequent blocks
+        encrypted = des_round(new_block, masterkey, 1)  # Perform DES round
+        hex_string += format(encrypted, 'x').zfill(3) # Convert to hexadecimal and pad with zeros to ensure 3 characters
 
     return hex_string
 
@@ -131,8 +130,11 @@ def cbc(msg, masterkey, iv):
 #ofb() - Encrypts msg with simplified DES algorithm under Output Feedback mode
 def ofb(msg, masterkey, iv):
     #FILL IN CODE
+
+    # Convert message to hexadecimal representation
     to_hex = msg.encode('utf-8').hex()
 
+    # Split the message into blocks of 3 characters
     blocks = []
     for i in range(0, len(to_hex), 3):
         blocks.append(to_hex[i:i+3])
@@ -140,11 +142,12 @@ def ofb(msg, masterkey, iv):
     encrypted = iv
     hex_string = ''
 
+    # Encrypt each block using simplified DES in OFB mode
     for block in blocks:
         block_int = int(block, 16)
-        encrypted = des_round(encrypted, masterkey, 1)
-        new_block = block_int ^ encrypted
-        hex_string += format(new_block, 'x').zfill(3)
+        encrypted = des_round(encrypted, masterkey, 1)  # Perform DES round
+        new_block = block_int ^ encrypted  # XOR with the encrypted IV
+        hex_string += format(new_block, 'x').zfill(3) # Convert to hexadecimal and pad with zeros to ensure 3 characters
 
     return hex_string
 
@@ -153,8 +156,11 @@ def ofb(msg, masterkey, iv):
 #ctr() - Encrypts msg with simplified DES algorithm under Counter mode
 def ctr(msg, masterkey, iv):
     #FILL IN CODE
+
+    # Convert message to hexadecimal representation
     to_hex = msg.encode('utf-8').hex()
 
+    # Split the message into blocks of 3 characters
     blocks = []
     for i in range(0, len(to_hex), 3):
         blocks.append(to_hex[i:i+3])
@@ -162,12 +168,13 @@ def ctr(msg, masterkey, iv):
     counter = iv
     hex_string = ''
 
+    # Encrypt each block using simplified DES in Counter mode
     for block in blocks:
         block_int = int(block, 16)
-        encrypted_counter = des_round(counter, masterkey, 1)
-        new_block = block_int ^ encrypted_counter
-        hex_string += format(new_block, 'x').zfill(3)
-        counter += 1
+        encrypted_counter = des_round(counter, masterkey, 1)  # Encrypt the counter
+        new_block = block_int ^ encrypted_counter  # XOR with the encrypted counter
+        hex_string += format(new_block, 'x').zfill(3) # Convert to hexadecimal and pad with zeros to ensure 3 characters
+        counter += 1  # Increment counter for next block
 
     return hex_string
 
